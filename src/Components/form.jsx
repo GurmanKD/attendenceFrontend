@@ -3,7 +3,13 @@ import StarRatings from "react-star-ratings";
 import './Form.css';
 
 const Form = ({ student, closeForm }) => {
-    const [rating, setRating] = useState(0);
+    const [ratings, setRatings] = useState({
+        ListeningSkills: 0,
+        AttentionSpan: 0,
+        Curiosity: 0,
+        ReflectingAbility: 0
+    });
+    const [attendance, setAttendance] = useState('Yes');
     const [error, setError] = useState(null);
 
     useEffect(() => {
@@ -12,6 +18,13 @@ const Form = ({ student, closeForm }) => {
             document.body.classList.remove('no-scroll');
         };
     }, []);
+
+    const handleRatingChange = (field, newRating) => {
+        setRatings(prevRatings => ({
+            ...prevRatings,
+            [field]: newRating
+        }));
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -22,7 +35,8 @@ const Form = ({ student, closeForm }) => {
             AttentionSpan: e.target.AttentionSpan.value,
             Curiosity: e.target.Curiosity.value,
             ReflectingAbility: e.target.ReflectingAbility.value,
-            ratings: rating,
+            Ratings: ratings,
+            Attendance: attendance
         };
 
         try {
@@ -37,7 +51,7 @@ const Form = ({ student, closeForm }) => {
                 throw new Error(data.message || 'Error recording attendance');
             }
 
-            console.log(`Rating for ${student.name}: ${rating}`);
+            console.log(`Form submitted for ${student.name}`);
             closeForm();
         } catch (error) {
             setError(error.message);
@@ -51,17 +65,67 @@ const Form = ({ student, closeForm }) => {
                 <h2>Enter Attendance for {student.name}</h2>
                 {error && <p className="error">{error}</p>}
                 <form onSubmit={handleSubmit}>
-                    <textarea name="ListeningSkills" placeholder="Listening Skills" required></textarea>
-                    <textarea name="AttentionSpan" placeholder="Attention Span" required></textarea>
-                    <textarea name="Curiosity" placeholder="Curiosity" required></textarea>
-                    <textarea name="ReflectingAbility" placeholder="Reflecting Ability" required></textarea>
-                    <StarRatings
-                        rating={rating}
-                        starRatedColor="blue"
-                        changeRating={(newRating) => setRating(newRating)}
-                        numberOfStars={5}
-                        name='rating'
-                    />
+                    <div className="form-field">
+                        <textarea name="ListeningSkills" placeholder="Listening Skills" required></textarea>
+                        <StarRatings
+                            rating={ratings.ListeningSkills}
+                            starRatedColor="blue"
+                            changeRating={(newRating) => handleRatingChange('ListeningSkills', newRating)}
+                            numberOfStars={5}
+                            name='ListeningSkillsRating'
+                        />
+                    </div>
+                    <div className="form-field">
+                        <textarea name="AttentionSpan" placeholder="Attention Span" required></textarea>
+                        <StarRatings
+                            rating={ratings.AttentionSpan}
+                            starRatedColor="blue"
+                            changeRating={(newRating) => handleRatingChange('AttentionSpan', newRating)}
+                            numberOfStars={5}
+                            name='AttentionSpanRating'
+                        />
+                    </div>
+                    <div className="form-field">
+                        <textarea name="Curiosity" placeholder="Curiosity" required></textarea>
+                        <StarRatings
+                            rating={ratings.Curiosity}
+                            starRatedColor="blue"
+                            changeRating={(newRating) => handleRatingChange('Curiosity', newRating)}
+                            numberOfStars={5}
+                            name='CuriosityRating'
+                        />
+                    </div>
+                    <div className="form-field">
+                        <textarea name="ReflectingAbility" placeholder="Reflecting Ability" required></textarea>
+                        <StarRatings
+                            rating={ratings.ReflectingAbility}
+                            starRatedColor="blue"
+                            changeRating={(newRating) => handleRatingChange('ReflectingAbility', newRating)}
+                            numberOfStars={5}
+                            name='ReflectingAbilityRating'
+                        />
+                    </div>
+                    <div className="form-field">
+                        <label>
+                            <input
+                                type="radio"
+                                name="attendance"
+                                value="Yes"
+                                checked={attendance === 'Yes'}
+                                onChange={() => setAttendance('Yes')}
+                            /> Yes
+                        </label>
+                        <label>
+                            <input
+                                type="radio"
+                                name="attendance"
+                                value="No"
+                                style={{ marginLeft: '10px' }}
+                                checked={attendance === 'No'}
+                                onChange={() => setAttendance('No')}
+                            /> No
+                        </label>
+                    </div>
                     <button type="submit">Submit</button>
                 </form>
             </div>

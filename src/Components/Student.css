@@ -1,0 +1,50 @@
+.Students {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    display: flex;
+    justify-content: space-between  ;
+    width: 600px;
+    text-align: center;
+    
+    background-color: #f9f9f9;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.studentDetails h1 {
+    font-size: 1.5em;
+    margin: 0 !important;
+}
+
+.studentDetails p {
+    margin: 5px 0;
+}
+
+.studentDetails{
+    padding-block:1rem ;
+    flex:1;
+    border-right: 1px solid #ccc;
+}
+
+.studentbutton{
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    height: fit-content;
+    align-self: center;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
